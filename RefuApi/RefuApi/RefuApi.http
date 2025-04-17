@@ -1,0 +1,6 @@
+@RefuApi_HostAddress = http://localhost:5209
+
+GET {{RefuApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
