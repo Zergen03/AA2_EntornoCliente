@@ -20,12 +20,21 @@ namespace RefuApi.Controllers
         {
             return Ok("Get all users");
         }
+        // GET: api/user
+        [HttpGet]
+        public IActionResult SearchUsers([FromQuery] string? name, [FromQuery] string? email)
+        {
+            throw new NotImplementedException("SearchUsers method is not implemented yet.");
+        }
+
+
         // GET: api/user/{id}
         [HttpGet("{id}")]
         public IActionResult GetUserById(int id)
         {
             return Ok($"Get user with id {id}");
         }
+
         // POST: api/user
         [HttpPost]
         public async Task<IActionResult> CreateUser([FromBody] CreateUserDTO createUserDTO)
@@ -34,12 +43,14 @@ namespace RefuApi.Controllers
             //return CreatedAtAction(nameof(GetUserById), new { id = 1 }, createdUser);
             return Ok();
         }
+
         // PUT: api/user/{id}
         [HttpPut("{id}")]
         public IActionResult UpdateUser(int id, [FromBody] object user)
         {
             return NoContent();
         }
+
         // DELETE: api/user/{id}
         [HttpDelete("{id}")]
         public IActionResult DeleteUser(int id)

@@ -20,41 +20,130 @@ namespace RefuApi.Services
 
         public async Task<UserDTO> RegisterUser(CreateUserDTO createUserDTO)
         {
-            var validationResults = new List<ValidationResult>();
-            var validationContext = new ValidationContext(createUserDTO);
-
-            if (!Validator.TryValidateObject(createUserDTO, validationContext, validationResults, true))
+            try
             {
-                var errors = string.Join("; ", validationResults.Select(v => v.ErrorMessage));
-                throw new ArgumentException($"Validation failed: {errors}");
+
+                var validationResults = new List<ValidationResult>();
+                var validationContext = new ValidationContext(createUserDTO);
+
+                if (!Validator.TryValidateObject(createUserDTO, validationContext, validationResults, true))
+                {
+                    var errors = string.Join("; ", validationResults.Select(v => v.ErrorMessage));
+                    throw new ArgumentException($"Validation failed: {errors}");
+                }
+
+                var user = _mapper.Map<User>(createUserDTO);
+
+                var existingUser = await _userRepository.GetAll(new UserQueryParameters { Email = user.Email });
+                if (existingUser.Any())
+                {
+                    throw new InvalidOperationException("A user with the same email already exists.");
+                }
+
+                await _userRepository.Add(user);
+                await _userRepository.SaveChangesAsync();
+
+                return _mapper.Map<UserDTO>(user);
             }
-
-            var user = _mapper.Map<User>(createUserDTO);
-
-            var existingUser = await _userRepository.GetAll(new UserQueryParameters { Email = user.Email });
-            if (existingUser.Any())
+            catch (InvalidOperationException ex)
             {
-                throw new InvalidOperationException("A user with the same email already exists.");
+                throw new InvalidOperationException($"User registration failed: {ex.Message}");
             }
-
-            await _userRepository.Add(user);
-            await _userRepository.SaveChangesAsync();
-
-            return _mapper.Map<UserDTO>(user);
+            catch (ArgumentException ex)
+            {
+                throw new ArgumentException($"User registration failed: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An unexpected error occurred: {ex.Message}");
+            }
         }
-        public Task<bool> DeleteUser(int userId)
+        public async Task<bool> DeleteUser(int userId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var user = await _userRepository.GetById(userId);
+                if (user == null)
+                {
+                    throw new KeyNotFoundException($"User with ID {userId} not found.");
+                }
+                await _userRepository.Delete(user);
+                await _userRepository.SaveChangesAsync();
+                return true;
+            }
+            catch (KeyNotFoundException ex)
+            {
+                throw new KeyNotFoundException($"User deletion failed: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An unexpected error occurred: {ex.Message}");
+            }
         }
 
-        public Task<UserDTO?> GetUserDetails(int userId)
+        public async Task<UserDTO?> GetUserDetails(int userId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var user = await _userRepository.GetById(userId);
+                if (user == null)
+                {
+                    throw new KeyNotFoundException($"User with ID {userId} not found.");
+                }
+                return _mapper.Map<UserDTO>(user);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                throw new KeyNotFoundException($"User retrieval failed: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An unexpected error occurred: {ex.Message}");
+            }
         }
 
-        public Task<UserDTO?> LoginUser(LoginUserDTO loginUserDTO)
+        public async Task<IEnumerable<UserDTO>> GetAllUsers(UserQueryParameters? userQueryParameters)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var users = await _userRepository.GetAll(userQueryParameters);
+                return _mapper.Map<IEnumerable<UserDTO>>(users);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An unexpected error occurred: {ex.Message}");
+            }
+        }
+
+        public async Task<UserDTO?> LoginUser(LoginUserDTO loginUserDTO)
+        {
+            try
+            {
+                var validationResults = new List<ValidationResult>();
+                var validationContext = new ValidationContext(loginUserDTO);
+                if (!Validator.TryValidateObject(loginUserDTO, validationContext, validationResults, true))
+                {
+                    var errors = string.Join("; ", validationResults.Select(v => v.ErrorMessage));
+                    throw new ArgumentException($"Validation failed: {errors}");
+                }
+                var users = await _userRepository.GetAll(new UserQueryParameters { Email = loginUserDTO.Email });
+                var user = users.FirstOrDefault();
+
+                if (user == null || user.Password != loginUserDTO.Password)
+                {
+                    throw new InvalidOperationException("Invalid email or password.");
+                }
+
+                return _mapper.Map<UserDTO>(user);
+            }
+            catch (ArgumentException ex)
+            {
+                throw new ArgumentException($"User login failed: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An unexpected error occurred: {ex.Message}");
+            }
         }
 
         public Task<bool> LogoutUser()
@@ -63,9 +152,44 @@ namespace RefuApi.Services
         }
 
 
-        public Task<UserDTO> UpdateUserDetails(int userId, UpdateUserDTO updateUserDTO)
+        public async Task<UserDTO> UpdateUserDetails(int userId, UpdateUserDTO updateUserDTO)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var validationResults = new List<ValidationResult>();
+                var validationContext = new ValidationContext(updateUserDTO);
+                if (!Validator.TryValidateObject(updateUserDTO, validationContext, validationResults, true))
+                {
+                    var errors = string.Join("; ", validationResults.Select(v => v.ErrorMessage));
+                    throw new ArgumentException($"Validation failed: {errors}");
+                }
+                var user = await _userRepository.GetById(userId);
+                if (user == null)
+                {
+                    throw new KeyNotFoundException($"User with ID {userId} not found.");
+                }
+                user.Name = updateUserDTO.Name ?? user.Name;
+                user.Email = updateUserDTO.Email ?? user.Email;
+                user.Password = updateUserDTO.Password ?? user.Password;
+                user.IsVeteran = updateUserDTO.IsVeteran ?? user.IsVeteran;
+
+                await _userRepository.Update(user);
+                await _userRepository.SaveChangesAsync();
+
+                return _mapper.Map<UserDTO>(user);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                throw new KeyNotFoundException($"User update failed: {ex.Message}");
+            }
+            catch (ArgumentException ex)
+            {
+                throw new ArgumentException($"User update failed: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An unexpected error occurred: {ex.Message}");
+            }
         }
     }
 }
