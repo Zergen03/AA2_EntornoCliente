@@ -1,4 +1,4 @@
-﻿namespace RefuApi.DTOs;
+﻿namespace RefuApi.DTOs.Users;
 
 public class UserDTO
 {
@@ -7,5 +7,4 @@ public class UserDTO
     public string Email { get; set; } = default!;
     public bool IsVeteran { get; set; }
 
-    public UserDTO() { }
 }

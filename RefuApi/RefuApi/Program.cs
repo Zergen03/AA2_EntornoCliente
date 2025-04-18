@@ -3,7 +3,11 @@ using DotNetEnv;
 using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using RefuApi.Services;
+using RefuApi.Services.Interfaces;
 using RefuApi.Data;
+using RefuApi.Data.Intefaces;
+using AutoMapper;
+using Microsoft.Extensions.DependencyInjection;
 
 DotNetEnv.Env.Load();
 
@@ -23,6 +27,11 @@ var connectionString = $"Server={Env.GetString("MYSQL_HOST")};" +
 builder.Services.AddDbContext<RefuApiContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+// Add services to the container.
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 var app = builder.Build();
 

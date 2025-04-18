@@ -38,6 +38,10 @@ public class UserRepository : IUserRepository
             {
                 query = query.Where(u => u.IsVeteran == userQueryParameters.IsVeteran);
             }
+            if (!string.IsNullOrWhiteSpace(userQueryParameters.Email))
+            {
+                query = query.Where(u => u.Email.Contains(userQueryParameters.Email));
+            }
         }
 
         var result = await query.ToListAsync();

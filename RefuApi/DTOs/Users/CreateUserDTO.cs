@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace RefuApi.DTOs;
+namespace RefuApi.DTOs.Users;
 
 public class CreateUserDTO
 {
@@ -13,7 +13,8 @@ public class CreateUserDTO
     public string Email { get; set; } = default!;
 
     [Required]
-    public bool IsVeteran { get; set; }
+    public string Password { get; set; } = default!;
 
-    public CreateUserDTO() { }
+    public bool IsVeteran { get; set; } = false;
+
 }

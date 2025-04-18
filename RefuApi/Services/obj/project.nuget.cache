@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "kL1/9JhwJnM=",
+  "dgSpecHash": "R4UqYBlwItQ=",
   "success": true,
   "projectFilePath": "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2\\RefuApi\\Services\\Services.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\alexi\\.nuget\\packages\\automapper\\14.0.0\\automapper.14.0.0.nupkg.sha512",
     "C:\\Users\\alexi\\.nuget\\packages\\microsoft.entityframeworkcore\\8.0.13\\microsoft.entityframeworkcore.8.0.13.nupkg.sha512",
     "C:\\Users\\alexi\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\8.0.13\\microsoft.entityframeworkcore.abstractions.8.0.13.nupkg.sha512",
     "C:\\Users\\alexi\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\8.0.13\\microsoft.entityframeworkcore.analyzers.8.0.13.nupkg.sha512",
