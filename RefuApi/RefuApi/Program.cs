@@ -5,6 +5,7 @@ using RefuApi.Data;
 using RefuApi.Data.Intefaces;
 using RefuApi.Services;
 using RefuApi.Services.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 DotNetEnv.Env.Load();
 
@@ -30,6 +31,22 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
+
+//JWT Authentication
+builder.Services.AddAuthentication("Bearer").AddJwtBearer("Bearer", options =>
+{
+    options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = Env.GetString("JWT_ISSUER"),
+        ValidAudience = Env.GetString("JWT_AUDIENCE"),
+        IssuerSigningKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(
+            System.Text.Encoding.UTF8.GetBytes(Env.GetString("JWT_SECRET")))
+    };
+});
 
 var app = builder.Build();
 

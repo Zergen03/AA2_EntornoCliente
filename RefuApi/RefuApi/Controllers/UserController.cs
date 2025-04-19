@@ -32,14 +32,24 @@ namespace RefuApi.Controllers
         // GET: api/user/{id}
         [Authorize]
         [HttpGet("{id}")]
-        public IActionResult GetUserById(int id)
+        public async Task<IActionResult> GetUser(int id)
         {
-            var user = _userService.GetUserDetails(id);
-            if (user == null)
+            try
             {
-                return NotFound();
+                var userDto = await _userService.GetUserDetails(id);
+                if (userDto == null)
+                    return NotFound();
+
+                return Ok(userDto);
             }
-            return Ok(user);
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Internal server error", details = ex.Message });
+            }
         }
 
         // POST: api/user
