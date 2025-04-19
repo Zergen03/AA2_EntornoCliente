@@ -1,13 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace RefuApi.DTOs.Schedules
+﻿namespace RefuApi.DTOs.Schedule
 {
     public class ScheduleDTO
     {
-        [Required]
+        public int Id { get; set; }
         public DateOnly Day { get; set; }
 
-        [Required]
         public TimeOnly StartTime { get; set; }
 
         public TimeOnly EndTime { get; set; }

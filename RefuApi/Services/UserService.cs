@@ -2,14 +2,12 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using AutoMapper;
-using DTOs.Users;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using RefuApi.Data.Intefaces;
 using RefuApi.DTOs.Users;
 using RefuApi.Models;
 using RefuApi.Services.Interfaces;
-using BCrypt.Net;
 
 namespace RefuApi.Services
 {
@@ -204,13 +202,19 @@ namespace RefuApi.Services
 
         public string GenerateJWTToken(UserDTO user)
         {
-            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_configuration["JWT_SECRET"]));
+            var jwtSecret = _configuration["JWT_SECRET"];
+            if (string.IsNullOrEmpty(jwtSecret))
+            {
+                throw new InvalidOperationException("JWT_SECRET is not configured.");
+            }
+
+            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(jwtSecret));
 
             var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, user.Name),
-                new Claim("IsVeteran", user.IsVeteran.ToString())
-            };
+           {
+               new Claim(ClaimTypes.Name, user.Name),
+               new Claim("IsVeteran", user.IsVeteran.ToString())
+           };
 
             var token = new JwtSecurityToken(
                 issuer: _configuration["JWT_ISSUER"],

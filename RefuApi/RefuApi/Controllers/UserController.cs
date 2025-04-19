@@ -2,7 +2,6 @@
 using RefuApi.DTOs.Users;
 using RefuApi.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
-using DTOs.Users;
 
 namespace RefuApi.Controllers
 {
@@ -40,7 +39,9 @@ namespace RefuApi.Controllers
             {
                 var userDto = await _userService.GetUserDetails(id);
                 if (userDto == null)
+                {
                     return NotFound();
+                }
 
                 return Ok(userDto);
             }
@@ -59,8 +60,7 @@ namespace RefuApi.Controllers
         public async Task<IActionResult> CreateUser([FromBody] CreateUserDTO createUserDTO)
         {
             var createdUser = await _userService.RegisterUser(createUserDTO);
-            //return CreatedAtAction(nameof(GetUserById), new { id = 1 }, createdUser);
-            return Ok();
+            return CreatedAtAction(nameof(GetUser), new { id = createdUser.Id }, createdUser);
         }
 
         // POST: api/user/login
@@ -83,10 +83,6 @@ namespace RefuApi.Controllers
             try
             {
                 var user = await _userService.UpdateUserDetails(id, userDTO);
-                if (user == null)
-                {
-                    return NotFound();
-                }
                 return Ok(user);
             }
             catch (KeyNotFoundException ex)
@@ -95,7 +91,7 @@ namespace RefuApi.Controllers
             }
             catch(Exception ex)
             {
-                return StatusCode(500, new { message = "Unexpected error occurred" });
+                return StatusCode(500, new { message = $"Unexpected error occurred: {ex}" });
             }
         }
 

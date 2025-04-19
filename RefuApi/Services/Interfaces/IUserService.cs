@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DTOs.Users;
-using RefuApi.DTOs.Users;
-using RefuApi.Models;
+﻿using RefuApi.DTOs.Users;
 
 namespace RefuApi.Services.Interfaces
 {

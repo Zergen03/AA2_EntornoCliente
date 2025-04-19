@@ -42,6 +42,7 @@ namespace RefuApi.Data
         // public DbSet<Horario> Horarios { get; set; }
         // public DbSet<Entrada> Entradas { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Schedule> Schedules { get; set; }
         // public DbSet<UserEntrada> UserEntradas { get; set; }
     }
 }

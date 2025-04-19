@@ -12,9 +12,18 @@ namespace RefuApi.Data
         {
             _context = context;
         }
-        public async Task<IEnumerable<Schedule>> GetAll()
+        public async Task<IEnumerable<Schedule>> GetAll(ScheduleQueryParameters? scheduleQueryParameters)
         {
-            return await _context.Schedules.ToListAsync();
+            var query = _context.Schedules.AsQueryable();
+            if (scheduleQueryParameters != null)
+            {
+                if (scheduleQueryParameters?.Day.HasValue == true)
+                {
+                    query = query.Where(s => s.Day == scheduleQueryParameters.Day.Value);
+                }
+            }
+            var result = await query.ToListAsync();
+            return result;
         }
         public async Task<Schedule?> GetById(int id)
         {
