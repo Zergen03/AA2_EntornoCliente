@@ -1,6 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using AutoMapper;
 using DTOs.Users;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using RefuApi.Data.Intefaces;
 using RefuApi.DTOs.Users;
 using RefuApi.Models;
@@ -12,10 +16,12 @@ namespace RefuApi.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
-        public UserService(IUserRepository userRepository, IMapper mapper)
+        private readonly IConfiguration _configuration;
+        public UserService(IUserRepository userRepository, IMapper mapper, IConfiguration configuration)
         {
             _userRepository = userRepository;
             _mapper = mapper;
+            _configuration = configuration;
         }
 
         public async Task<UserDTO> RegisterUser(CreateUserDTO createUserDTO)
@@ -190,6 +196,27 @@ namespace RefuApi.Services
             {
                 throw new Exception($"An unexpected error occurred: {ex.Message}");
             }
+        }
+
+        public string GenerateJWTToken(UserDTO user)
+        {
+            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_configuration["JWT_SECRET"]));
+
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, user.Name),
+                new Claim("IsVeteran", user.IsVeteran.ToString())
+            };
+
+            var token = new JwtSecurityToken(
+                issuer: _configuration["JWT_ISSUER"],
+                audience: _configuration["JWT_AUDIENCE"],
+                claims: claims,
+                expires: DateTime.UtcNow.AddHours(1),
+                signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256)
+            );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }

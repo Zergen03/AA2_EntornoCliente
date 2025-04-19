@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DTOs.Users;
 using RefuApi.DTOs.Users;
+using RefuApi.Models;
 
 namespace RefuApi.Services.Interfaces
 {
@@ -16,5 +17,6 @@ namespace RefuApi.Services.Interfaces
         Task<UserDTO> UpdateUserDetails(int userId, UpdateUserDTO updateUserDTO);
         Task<bool> DeleteUser(int userId);
         Task<UserDTO?> GetUserDetails(int userId);
+        string GenerateJWTToken(UserDTO user);
     }
 }

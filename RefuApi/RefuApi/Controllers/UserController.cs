@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RefuApi.DTOs.Users;
 using RefuApi.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RefuApi.Controllers
 {
@@ -20,19 +21,25 @@ namespace RefuApi.Controllers
         {
             return Ok("Get all users");
         }
-        // GET: api/user
-        [HttpGet]
-        public IActionResult SearchUsers([FromQuery] string? name, [FromQuery] string? email)
-        {
-            throw new NotImplementedException("SearchUsers method is not implemented yet.");
-        }
+        //// GET: api/user
+        //[HttpGet]
+        //public IActionResult SearchUsers([FromQuery] string? name, [FromQuery] string? email)
+        //{
+        //    throw new NotImplementedException("SearchUsers method is not implemented yet.");
+        //}
 
 
         // GET: api/user/{id}
+        [Authorize]
         [HttpGet("{id}")]
         public IActionResult GetUserById(int id)
         {
-            return Ok($"Get user with id {id}");
+            var user = _userService.GetUserDetails(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return Ok(user);
         }
 
         // POST: api/user
@@ -42,6 +49,18 @@ namespace RefuApi.Controllers
             var createdUser = await _userService.RegisterUser(createUserDTO);
             //return CreatedAtAction(nameof(GetUserById), new { id = 1 }, createdUser);
             return Ok();
+        }
+        // POST: api/user/login
+        [HttpPost("login")]
+        public async Task<IActionResult> LoginUser([FromBody] LoginUserDTO loginUserDTO)
+        {
+            var user = await _userService.LoginUser(loginUserDTO);
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+            var token = _userService.GenerateJWTToken(user);
+            return Ok(new { token });
         }
 
         // PUT: api/user/{id}

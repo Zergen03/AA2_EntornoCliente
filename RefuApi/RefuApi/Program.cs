@@ -1,13 +1,10 @@
-using Microsoft.OpenApi.Models;
 using DotNetEnv;
 using Microsoft.EntityFrameworkCore;
-using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
-using RefuApi.Services;
-using RefuApi.Services.Interfaces;
+using Microsoft.OpenApi.Models;
 using RefuApi.Data;
 using RefuApi.Data.Intefaces;
-using AutoMapper;
-using Microsoft.Extensions.DependencyInjection;
+using RefuApi.Services;
+using RefuApi.Services.Interfaces;
 
 DotNetEnv.Env.Load();
 
@@ -32,6 +29,7 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 // Add services to the container.
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 
 var app = builder.Build();
 
