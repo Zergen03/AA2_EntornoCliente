@@ -9,6 +9,7 @@ using RefuApi.Data.Intefaces;
 using RefuApi.DTOs.Users;
 using RefuApi.Models;
 using RefuApi.Services.Interfaces;
+using BCrypt.Net;
 
 namespace RefuApi.Services
 {
@@ -45,6 +46,8 @@ namespace RefuApi.Services
                 {
                     throw new InvalidOperationException("A user with the same email already exists.");
                 }
+
+                user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
 
                 await _userRepository.Add(user);
                 await _userRepository.SaveChangesAsync();
@@ -108,10 +111,11 @@ namespace RefuApi.Services
             }
         }
 
-        public async Task<IEnumerable<UserDTO>> GetAllUsers(UserQueryParameters? userQueryParameters)
+        public async Task<IEnumerable<UserDTO>> GetAllUsers(UserQueryParametersDTO? userQueryParametersDTO)
         {
             try
             {
+                var userQueryParameters = _mapper.Map<UserQueryParameters>(userQueryParametersDTO);
                 var users = await _userRepository.GetAll(userQueryParameters);
                 return _mapper.Map<IEnumerable<UserDTO>>(users);
             }
@@ -135,7 +139,7 @@ namespace RefuApi.Services
                 var users = await _userRepository.GetAll(new UserQueryParameters { Email = loginUserDTO.Email });
                 var user = users.FirstOrDefault();
 
-                if (user == null || user.Password != loginUserDTO.Password)
+                if (user == null || !BCrypt.Net.BCrypt.Verify(loginUserDTO.Password, user.Password))
                 {
                     throw new InvalidOperationException("Invalid email or password.");
                 }

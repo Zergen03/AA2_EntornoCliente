@@ -2,6 +2,7 @@
 using RefuApi.DTOs.Users;
 using RefuApi.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using DTOs.Users;
 
 namespace RefuApi.Controllers
 {
@@ -17,17 +18,18 @@ namespace RefuApi.Controllers
 
         // GET: api/user
         [HttpGet]
-        public IActionResult GetAllUsers()
+        public async Task<IActionResult> SearchUsers([FromQuery] string? name, [FromQuery] string? email)
         {
-            return Ok("Get all users");
-        }
-        //// GET: api/user
-        //[HttpGet]
-        //public IActionResult SearchUsers([FromQuery] string? name, [FromQuery] string? email)
-        //{
-        //    throw new NotImplementedException("SearchUsers method is not implemented yet.");
-        //}
+            var userQueryParametersDTO = new UserQueryParametersDTO
+            {
+                Name = name,
+                Email = email
+            };
 
+            var users = await _userService.GetAllUsers(userQueryParametersDTO);
+
+            return Ok(users);
+        }
 
         // GET: api/user/{id}
         [Authorize]
@@ -60,6 +62,7 @@ namespace RefuApi.Controllers
             //return CreatedAtAction(nameof(GetUserById), new { id = 1 }, createdUser);
             return Ok();
         }
+
         // POST: api/user/login
         [HttpPost("login")]
         public async Task<IActionResult> LoginUser([FromBody] LoginUserDTO loginUserDTO)
@@ -75,16 +78,44 @@ namespace RefuApi.Controllers
 
         // PUT: api/user/{id}
         [HttpPut("{id}")]
-        public IActionResult UpdateUser(int id, [FromBody] object user)
+        public async Task<IActionResult> UpdateUser(int id, [FromBody] UpdateUserDTO userDTO)
         {
-            return NoContent();
+            try
+            {
+                var user = await _userService.UpdateUserDetails(id, userDTO);
+                if (user == null)
+                {
+                    return NotFound();
+                }
+                return Ok(user);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, new { message = "Unexpected error occurred" });
+            }
         }
 
         // DELETE: api/user/{id}
         [HttpDelete("{id}")]
-        public IActionResult DeleteUser(int id)
+        public async Task<IActionResult> DeleteUser(int id)
         {
-            return NoContent();
+            try
+            {
+                await _userService.DeleteUser(id);
+                return NoContent(); 
+            }
+            catch(KeyNotFoundException ex)
+            {
+                return NotFound(ex);
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
         }
     }
 }

@@ -1,6 +1,6 @@
-﻿namespace RefuApi.Models;
+﻿namespace RefuApi.DTOs.Users;
 
-public class UserQueryParameters
+public class UserQueryParametersDTO 
 {
     public string? Name { get; set; }
     public string? Email { get; set; }

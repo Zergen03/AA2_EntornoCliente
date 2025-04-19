@@ -17,6 +17,7 @@ namespace RefuApi.Services.Interfaces
         Task<UserDTO> UpdateUserDetails(int userId, UpdateUserDTO updateUserDTO);
         Task<bool> DeleteUser(int userId);
         Task<UserDTO?> GetUserDetails(int userId);
+        Task<IEnumerable<UserDTO>> GetAllUsers(UserQueryParametersDTO? userQueryParametersDTO);
         string GenerateJWTToken(UserDTO user);
     }
 }

@@ -11,6 +11,7 @@ namespace RefuApi.Services.Mappings
         {
             CreateMap<User, UserDTO>().ReverseMap();
             CreateMap<User, CreateUserDTO>().ReverseMap();
+            CreateMap<UserQueryParameters, UserQueryParametersDTO>().ReverseMap();
         }
     }
 }

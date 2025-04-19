@@ -46,7 +46,29 @@ builder.Services.AddAuthentication("Bearer").AddJwtBearer("Bearer", options =>
         IssuerSigningKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(
             System.Text.Encoding.UTF8.GetBytes(Env.GetString("JWT_SECRET")))
     };
+
+    options.Events = new Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerEvents
+    {
+        OnChallenge = context =>
+        {
+            context.HandleResponse();
+            context.Response.StatusCode = 401;
+            context.Response.ContentType = "application/json";
+
+            var result = System.Text.Json.JsonSerializer.Serialize(new
+            {
+                message = "Unauthorized: token is missing or invalid."
+            });
+            return context.Response.WriteAsync(result);
+        }
+    };
 });
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("VeteranOnly", policy => policy.RequireClaim("IsVeteran", "true"));
+});
+
 
 var app = builder.Build();
 
