@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "p3eKwXXKDTg=",
+  "dgSpecHash": "QymDjbWtW58=",
   "success": true,
-  "projectFilePath": "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2\\RefuApi\\Data\\Data.csproj",
+  "projectFilePath": "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2_EntornoCliente\\RefuApi\\Data\\Data.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\alexi\\.nuget\\packages\\microsoft.entityframeworkcore\\8.0.13\\microsoft.entityframeworkcore.8.0.13.nupkg.sha512",
     "C:\\Users\\alexi\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\8.0.13\\microsoft.entityframeworkcore.abstractions.8.0.13.nupkg.sha512",

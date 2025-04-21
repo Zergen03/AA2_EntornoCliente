@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2\\RefuApi\\Models\\Models.csproj",
+      "projectUniqueName": "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2_EntornoCliente\\RefuApi\\Models\\Models.csproj",
       "projectName": "Models",
-      "projectPath": "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2\\RefuApi\\Models\\Models.csproj",
+      "projectPath": "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2_EntornoCliente\\RefuApi\\Models\\Models.csproj",
       "packagesPath": "C:\\Users\\alexi\\.nuget\\packages\\",
-      "outputPath": "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2\\RefuApi\\Models\\obj\\",
+      "outputPath": "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2_EntornoCliente\\RefuApi\\Models\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

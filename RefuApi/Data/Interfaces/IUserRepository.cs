@@ -1,6 +1,6 @@
 ﻿using RefuApi.Models;
 
-namespace RefuApi.Data.Intefaces;
+namespace RefuApi.Data.Interfaces;
 
 public interface IUserRepository
 {

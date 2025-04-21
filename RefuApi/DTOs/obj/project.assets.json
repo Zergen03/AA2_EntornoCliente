@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2\\RefuApi\\DTOs\\DTOs.csproj",
+      "projectUniqueName": "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2_EntornoCliente\\RefuApi\\DTOs\\DTOs.csproj",
       "projectName": "DTOs",
-      "projectPath": "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2\\RefuApi\\DTOs\\DTOs.csproj",
+      "projectPath": "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2_EntornoCliente\\RefuApi\\DTOs\\DTOs.csproj",
       "packagesPath": "C:\\Users\\alexi\\.nuget\\packages\\",
-      "outputPath": "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2\\RefuApi\\DTOs\\obj\\",
+      "outputPath": "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2_EntornoCliente\\RefuApi\\DTOs\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

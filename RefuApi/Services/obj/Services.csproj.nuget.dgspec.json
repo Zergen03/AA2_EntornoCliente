@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2\\RefuApi\\Services\\Services.csproj": {}
+    "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2_EntornoCliente\\RefuApi\\Services\\Services.csproj": {}
   },
   "projects": {
-    "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2\\RefuApi\\Data\\Data.csproj": {
+    "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2_EntornoCliente\\RefuApi\\Data\\Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2\\RefuApi\\Data\\Data.csproj",
+        "projectUniqueName": "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2_EntornoCliente\\RefuApi\\Data\\Data.csproj",
         "projectName": "Data",
-        "projectPath": "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2\\RefuApi\\Data\\Data.csproj",
+        "projectPath": "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2_EntornoCliente\\RefuApi\\Data\\Data.csproj",
         "packagesPath": "C:\\Users\\alexi\\.nuget\\packages\\",
-        "outputPath": "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2\\RefuApi\\Data\\obj\\",
+        "outputPath": "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2_EntornoCliente\\RefuApi\\Data\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -32,8 +32,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2\\RefuApi\\Models\\Models.csproj": {
-                "projectPath": "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2\\RefuApi\\Models\\Models.csproj"
+              "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2_EntornoCliente\\RefuApi\\Models\\Models.csproj": {
+                "projectPath": "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2_EntornoCliente\\RefuApi\\Models\\Models.csproj"
               }
             }
           }
@@ -83,14 +83,14 @@
         }
       }
     },
-    "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2\\RefuApi\\DTOs\\DTOs.csproj": {
+    "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2_EntornoCliente\\RefuApi\\DTOs\\DTOs.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2\\RefuApi\\DTOs\\DTOs.csproj",
+        "projectUniqueName": "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2_EntornoCliente\\RefuApi\\DTOs\\DTOs.csproj",
         "projectName": "DTOs",
-        "projectPath": "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2\\RefuApi\\DTOs\\DTOs.csproj",
+        "projectPath": "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2_EntornoCliente\\RefuApi\\DTOs\\DTOs.csproj",
         "packagesPath": "C:\\Users\\alexi\\.nuget\\packages\\",
-        "outputPath": "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2\\RefuApi\\DTOs\\obj\\",
+        "outputPath": "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2_EntornoCliente\\RefuApi\\DTOs\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -148,14 +148,14 @@
         }
       }
     },
-    "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2\\RefuApi\\Models\\Models.csproj": {
+    "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2_EntornoCliente\\RefuApi\\Models\\Models.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2\\RefuApi\\Models\\Models.csproj",
+        "projectUniqueName": "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2_EntornoCliente\\RefuApi\\Models\\Models.csproj",
         "projectName": "Models",
-        "projectPath": "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2\\RefuApi\\Models\\Models.csproj",
+        "projectPath": "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2_EntornoCliente\\RefuApi\\Models\\Models.csproj",
         "packagesPath": "C:\\Users\\alexi\\.nuget\\packages\\",
-        "outputPath": "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2\\RefuApi\\Models\\obj\\",
+        "outputPath": "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2_EntornoCliente\\RefuApi\\Models\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -213,14 +213,14 @@
         }
       }
     },
-    "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2\\RefuApi\\Services\\Services.csproj": {
+    "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2_EntornoCliente\\RefuApi\\Services\\Services.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2\\RefuApi\\Services\\Services.csproj",
+        "projectUniqueName": "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2_EntornoCliente\\RefuApi\\Services\\Services.csproj",
         "projectName": "Services",
-        "projectPath": "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2\\RefuApi\\Services\\Services.csproj",
+        "projectPath": "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2_EntornoCliente\\RefuApi\\Services\\Services.csproj",
         "packagesPath": "C:\\Users\\alexi\\.nuget\\packages\\",
-        "outputPath": "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2\\RefuApi\\Services\\obj\\",
+        "outputPath": "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2_EntornoCliente\\RefuApi\\Services\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -241,14 +241,14 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2\\RefuApi\\Data\\Data.csproj": {
-                "projectPath": "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2\\RefuApi\\Data\\Data.csproj"
+              "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2_EntornoCliente\\RefuApi\\Data\\Data.csproj": {
+                "projectPath": "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2_EntornoCliente\\RefuApi\\Data\\Data.csproj"
               },
-              "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2\\RefuApi\\DTOs\\DTOs.csproj": {
-                "projectPath": "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2\\RefuApi\\DTOs\\DTOs.csproj"
+              "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2_EntornoCliente\\RefuApi\\DTOs\\DTOs.csproj": {
+                "projectPath": "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2_EntornoCliente\\RefuApi\\DTOs\\DTOs.csproj"
               },
-              "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2\\RefuApi\\Models\\Models.csproj": {
-                "projectPath": "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2\\RefuApi\\Models\\Models.csproj"
+              "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2_EntornoCliente\\RefuApi\\Models\\Models.csproj": {
+                "projectPath": "D:\\Dev\\GitHub\\DAWO_EntornoCliente\\AA2_EntornoCliente\\RefuApi\\Models\\Models.csproj"
               }
             }
           }

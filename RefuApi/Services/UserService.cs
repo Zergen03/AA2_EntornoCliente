@@ -4,7 +4,7 @@ using System.Security.Claims;
 using AutoMapper;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using RefuApi.Data.Intefaces;
+using RefuApi.Data.Interfaces;
 using RefuApi.DTOs.Users;
 using RefuApi.Models;
 using RefuApi.Services.Interfaces;

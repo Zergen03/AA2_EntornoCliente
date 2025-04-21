@@ -4,7 +4,7 @@ using AutoMapper;
 using RefuApi.DTOs.Schedule;
 using RefuApi.Models;
 
-namespace Services
+namespace RefuApi.Services
 {
     public class ScheduleService : IScheduleService
     {

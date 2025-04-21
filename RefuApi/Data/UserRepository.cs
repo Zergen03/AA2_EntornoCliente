@@ -1,4 +1,4 @@
-﻿using RefuApi.Data.Intefaces;
+﻿using RefuApi.Data.Interfaces;
 using User = RefuApi.Models.User;
 using RefuApi.Models;
 using Microsoft.EntityFrameworkCore;
