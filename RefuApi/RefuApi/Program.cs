@@ -5,12 +5,18 @@ using RefuApi.Data;
 using RefuApi.Data.Interfaces;
 using RefuApi.Services;
 using RefuApi.Services.Interfaces;
+using RefuApi.Converters;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 DotNetEnv.Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+     {
+         options.JsonSerializerOptions.Converters.Add(new DateOnlyJsonConverter());
+         options.JsonSerializerOptions.Converters.Add(new TimeOnlyJsonConverter());
+     });
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "RefuApi", Version = "v1" });
