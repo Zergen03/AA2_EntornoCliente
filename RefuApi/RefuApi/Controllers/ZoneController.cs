@@ -1,48 +1,46 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RefuApi.DTOs.Schedule;
+using RefuApi.DTOs.Zone;
 using RefuApi.Services.Interfaces;
 
 namespace RefuApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ScheduleController : ControllerBase
+    public class ZoneController : ControllerBase
     {
-        private readonly IScheduleService _scheduleService;
-        public ScheduleController(IScheduleService scheduleService)
+        private readonly IZoneService _zoneService;
+        public ZoneController(IZoneService zoneService)
         {
-            _scheduleService = scheduleService;
+            _zoneService = zoneService;
         }
-
-        // GET: api/Schedule
+        // GET: api/Zone
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] DateOnly? day)
+        public async Task<IActionResult> GetAll([FromQuery] string? name)
         {
             try
             {
-                var scheduleQueryParametersDTO = new ScheduleQueryParametersDTO
+                var zoneQueryParametersDTO = new ZoneQueryParametersDTO
                 {
-                    Day = day
+                    Name = name
                 };
 
-                var schedules = await _scheduleService.GetAll(scheduleQueryParametersDTO);
-                return Ok(schedules);
+                var zones = await _zoneService.GetAll(zoneQueryParametersDTO);
+
+                return Ok(zones);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, new { message = "Internal server error", details = ex.Message });
             }
         }
-
-        // GET api/Schedule/{id}
+        // GET api/Zone/{id}
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
             try
             {
-                var scheduleDto = await _scheduleService.GetById(id);
-                return Ok(scheduleDto);
-
+                var zoneDto = await _zoneService.GetById(id);
+                return Ok(zoneDto);
             }
             catch (KeyNotFoundException ex)
             {
@@ -53,15 +51,14 @@ namespace RefuApi.Controllers
                 return StatusCode(500, new { message = "Internal server error", details = ex.Message });
             }
         }
-
-        // POST api/Schedule
+        // POST api/Zone
         [HttpPost]
-        public async Task<IActionResult> CreateSchedule([FromBody] CreateScheduleDTO createScheduleDTO)
+        public async Task<IActionResult> CreateZone([FromBody] CreateZoneDTO createZoneDTO)
         {
             try
             {
-                var schedule = await _scheduleService.Add(createScheduleDTO);
-                return CreatedAtAction(nameof(Get), new { id = schedule.Id }, schedule);
+                var zoneDto = await _zoneService.Add(createZoneDTO);
+                return CreatedAtAction(nameof(Get), new { id = zoneDto.Id }, zoneDto);
             }
             catch (Exception ex)
             {
@@ -69,14 +66,14 @@ namespace RefuApi.Controllers
             }
         }
 
-        // PUT api/Schedule/{id}
+        // PUT api/Zone/{id}
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody] UpdateScheduleDTO updateScheduleDTO)
+        public async Task<IActionResult> UpdateZone(int id, [FromBody] UpdateZoneDTO updateZoneDTO)
         {
             try
             {
-                var schedule = await _scheduleService.Update(id, updateScheduleDTO);
-                return Ok(schedule);
+                var zoneDto = await _zoneService.Update(id, updateZoneDTO);
+                return Ok(zoneDto);
             }
             catch (KeyNotFoundException ex)
             {
@@ -88,18 +85,13 @@ namespace RefuApi.Controllers
             }
         }
 
-
-        // DELETE api/Schedule/{id}
+        // DELETE api/Zone/{id}
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> DeleteZone(int id)
         {
             try
             {
-                var isDeleted = await _scheduleService.Delete(id);
-                if (!isDeleted)
-                {
-                    return NotFound(new { message = $"Schedule with ID {id} not found." });
-                }
+                await _zoneService.Delete(id);
                 return NoContent();
             }
             catch (KeyNotFoundException ex)

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RefuApi.Data;
 
@@ -11,9 +12,11 @@ using RefuApi.Data;
 namespace Data.Migrations
 {
     [DbContext(typeof(RefuApiContext))]
-    partial class RefuApiContextModelSnapshot : ModelSnapshot
+    [Migration("20250421184706_addZones")]
+    partial class addZones
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

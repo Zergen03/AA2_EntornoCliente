@@ -12,6 +12,7 @@ namespace RefuApi.Data
         {
             _context = context;
         }
+
         public async Task<IEnumerable<Schedule>> GetAll(ScheduleQueryParameters? scheduleQueryParameters)
         {
             var query = _context.Schedules.AsQueryable();
@@ -43,9 +44,9 @@ namespace RefuApi.Data
             _context.Schedules.Remove(schedule);
             return Task.CompletedTask;
         }
-        public Task SaveChangesAsync()
+        public async Task SaveChangesAsync()
         {
-            return _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
     }
 }

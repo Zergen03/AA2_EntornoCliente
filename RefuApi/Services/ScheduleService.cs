@@ -99,7 +99,14 @@ namespace RefuApi.Services
         }
         public async Task SaveChangesAsync()
         {
-            await _scheduleRepository.SaveChangesAsync();
+            try
+            {
+                await _scheduleRepository.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error saving changes to schedule", ex);
+            }
         }
     }
 }

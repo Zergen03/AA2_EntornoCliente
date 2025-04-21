@@ -2,6 +2,7 @@
 using RefuApi.Models;
 using RefuApi.DTOs.Users;
 using RefuApi.DTOs.Schedule;
+using RefuApi.DTOs.Zone;
 
 namespace RefuApi.Services.Mappings
 {
@@ -20,6 +21,11 @@ namespace RefuApi.Services.Mappings
             CreateMap<ScheduleQueryParameters, ScheduleQueryParametersDTO>().ReverseMap();
             CreateMap<Schedule, CreateScheduleDTO>().ReverseMap();
             CreateMap<Schedule, UpdateScheduleDTO>().ReverseMap();
+            //Zones
+            CreateMap<Zone, ZoneDTO>().ReverseMap();
+            CreateMap<Zone, CreateZoneDTO>().ReverseMap();
+            CreateMap<Zone, UpdateZoneDTO>().ReverseMap();
+            CreateMap<ZoneQueryParameters, ZoneQueryParametersDTO>().ReverseMap();
         }
     }
 }
