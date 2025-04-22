@@ -15,20 +15,26 @@ namespace RefuApi.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Clave compuesta para la tabla intermedia
-            // modelBuilder.Entity<UserEntrada>()
-            //     .HasKey(ue => new { ue.UserId, ue.EntradaId });
+            modelBuilder.Entity<ScheduleAssignment>()
+                .HasKey(sa => new { sa.UserId, sa.ZoneId, sa.ScheduleId });
 
-            // // Relaciones
-            // modelBuilder.Entity<UserEntrada>()
-            //     .HasOne(ue => ue.User)
-            //     .WithMany(u => u.UserEntradas)
-            //     .HasForeignKey(ue => ue.UserId);
+            modelBuilder.Entity<ScheduleAssignment>()
+                .HasOne(sa => sa.User)
+                .WithMany()
+                .HasForeignKey(sa => sa.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
 
-            // modelBuilder.Entity<UserEntrada>()
-            //     .HasOne(ue => ue.Entrada)
-            //     .WithMany(e => e.UserEntradas)
-            //     .HasForeignKey(ue => ue.EntradaId);
+            modelBuilder.Entity<ScheduleAssignment>()
+                .HasOne(sa => sa.Zone)
+                .WithMany()
+                .HasForeignKey(sa => sa.ZoneId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ScheduleAssignment>()
+                .HasOne(sa => sa.Schedule)
+                .WithMany()
+                .HasForeignKey(sa => sa.ScheduleId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -38,12 +44,9 @@ namespace RefuApi.Data
                 .EnableSensitiveDataLogging();
         }
 
-        // public DbSet<Zona> Zonas { get; set; }
-        // public DbSet<Horario> Horarios { get; set; }
-        // public DbSet<Entrada> Entradas { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Schedule> Schedules { get; set; }
         public DbSet<Zone> Zones { get; set; }
-        // public DbSet<UserEntrada> UserEntradas { get; set; }
+        public DbSet<ScheduleAssignment> ScheduleAssignments { get; set; }
     }
 }

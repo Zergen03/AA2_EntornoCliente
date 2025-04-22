@@ -41,6 +41,8 @@ builder.Services.AddScoped<IScheduleService, ScheduleService>();
 builder.Services.AddScoped<IScheduleRepository, ScheduleRepository>();
 builder.Services.AddScoped<IZoneRepository, ZoneRepository>();
 builder.Services.AddScoped<IZoneService, ZoneService>();
+builder.Services.AddScoped<IScheduleAssignmentRepository, ScheduleAssignmentRepository>();
+builder.Services.AddScoped<IScheduleAssignmentService, ScheduleAssignmentService>();
 
 
 //JWT Authentication

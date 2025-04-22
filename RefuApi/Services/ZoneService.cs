@@ -53,7 +53,7 @@ namespace RefuApi.Services
             {
                 var zone = _mapper.Map<Zone>(zoneDTO);
                 await _zoneRepository.Add(zone);
-                await _zoneRepository.SaveChangesAsync();
+                await SaveChangesAsync();
                 return _mapper.Map<ZoneDTO>(zone);
             }
             catch (Exception ex)
@@ -73,7 +73,7 @@ namespace RefuApi.Services
                 }
                 _mapper.Map(zoneDTO, zone);
                 await _zoneRepository.Update(zone);
-                await _zoneRepository.SaveChangesAsync();
+                await SaveChangesAsync();
                 return _mapper.Map<ZoneDTO>(zone);
             }
             catch (Exception ex)
@@ -92,7 +92,7 @@ namespace RefuApi.Services
                     throw new KeyNotFoundException($"Zone with ID {id} not found.");
                 }
                 await _zoneRepository.Delete(zone);
-                await _zoneRepository.SaveChangesAsync();
+                await SaveChangesAsync();
                 return true;
             }
             catch (Exception ex)

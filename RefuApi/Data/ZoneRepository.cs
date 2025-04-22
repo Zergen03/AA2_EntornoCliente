@@ -1,6 +1,5 @@
 ﻿using RefuApi.Data.Interfaces;
 using RefuApi.Models;
-using Zone = RefuApi.Models.Zone;
 using Microsoft.EntityFrameworkCore;
 
 namespace RefuApi.Data
