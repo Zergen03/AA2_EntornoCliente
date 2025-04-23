@@ -10,6 +10,8 @@ namespace RefuApi.DTOs.Users
         [EmailAddress(ErrorMessage = "The Email field is not a valid email address.")]
         public string? Email { get; set; }
 
+        [StringLength(100, ErrorMessage = "The Password should be less than 100 chars")]
+        [DataType(DataType.Password)]
         public string? Password { get; set; }
 
         public bool? IsVeteran { get; set; }

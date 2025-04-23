@@ -178,7 +178,10 @@ namespace RefuApi.Services
                 }
                 user.Name = updateUserDTO.Name ?? user.Name;
                 user.Email = updateUserDTO.Email ?? user.Email;
-                user.Password = updateUserDTO.Password ?? user.Password;
+                if(!string.IsNullOrEmpty(updateUserDTO.Password))
+                {
+                    user.Password = BCrypt.Net.BCrypt.HashPassword(updateUserDTO.Password);
+                }
                 user.IsVeteran = updateUserDTO.IsVeteran ?? user.IsVeteran;
 
                 await _userRepository.Update(user);

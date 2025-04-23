@@ -18,6 +18,8 @@ public class User
 
     public bool IsVeteran { get; set; }
 
+    public ICollection<ScheduleAssignment> ScheduleAssignments { get; set; } = new List<ScheduleAssignment>();
+
     public User() { }
 
     public User(string name, string email, string password, bool isVeteran)

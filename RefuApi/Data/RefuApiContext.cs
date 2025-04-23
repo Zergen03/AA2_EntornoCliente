@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using RefuApi.Models;
 using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
-using System.Reflection.Emit;
+using RefuApi.Models;
 
 namespace RefuApi.Data
 {
@@ -16,24 +14,24 @@ namespace RefuApi.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ScheduleAssignment>()
-                .HasKey(sa => new { sa.UserId, sa.ZoneId, sa.ScheduleId });
+                .HasKey(sa => new { sa.UserId, sa.ScheduleId });
 
             modelBuilder.Entity<ScheduleAssignment>()
                 .HasOne(sa => sa.User)
-                .WithMany()
+                .WithMany(u => u.ScheduleAssignments)
                 .HasForeignKey(sa => sa.UserId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<ScheduleAssignment>()
-                .HasOne(sa => sa.Zone)
-                .WithMany()
-                .HasForeignKey(sa => sa.ZoneId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<ScheduleAssignment>()
                 .HasOne(sa => sa.Schedule)
-                .WithMany()
+                .WithMany(s => s.ScheduleAssignments)
                 .HasForeignKey(sa => sa.ScheduleId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Schedule>()
+                .HasOne(s => s.Zone)
+                .WithMany(z => z.Schedules)
+                .HasForeignKey(s => s.ZoneId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
 

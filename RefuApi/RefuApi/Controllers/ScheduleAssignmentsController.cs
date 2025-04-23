@@ -31,14 +31,13 @@ namespace RefuApi.Controllers
             }
         }
 
-        // GET api/ScheduleAssignments/user/1/zone/2/schedule/3
-        [HttpGet("user/{userId}/zone/{zoneId}/schedule/{scheduleId}")]
-        public async Task<IActionResult> Get(int userId, int zoneId, int scheduleId)
+        // GET api/ScheduleAssignments/user/1/schedule/3
+        [HttpGet("user/{userId}/schedule/{scheduleId}")]
+        public async Task<IActionResult> Get(int userId, int scheduleId)
         {
             var keyDto = new ScheduleAssignmentKeyDTO
             {
                 UserId = userId,
-                ZoneId = zoneId,
                 ScheduleId = scheduleId
             };
 
@@ -58,6 +57,7 @@ namespace RefuApi.Controllers
         }
 
 
+
         // POST api/ScheduleAssignments
         [HttpPost]
         public async Task<IActionResult> CreateScheduleAssignment([FromBody] CreateScheduleAssignmentDTO createScheduleAssignmentDTO)
@@ -71,7 +71,6 @@ namespace RefuApi.Controllers
                     new
                     {
                         userId = scheduleAssignmentDto.UserId,
-                        zoneId = scheduleAssignmentDto.ZoneId,
                         scheduleId = scheduleAssignmentDto.ScheduleId
                     },
                     scheduleAssignmentDto
@@ -86,6 +85,7 @@ namespace RefuApi.Controllers
                 return StatusCode(500, new { message = "Internal server error", details = ex.Message });
             }
         }
+
 
 
         // DELETE api/ScheduleAssignments/{id}

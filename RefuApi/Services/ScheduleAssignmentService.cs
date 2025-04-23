@@ -34,7 +34,7 @@ namespace RefuApi.Services
             try
             {
                 var scheduleAssignment = await _scheduleAssignmentRepository.GetByIds(
-                    scheduleAssignmentKeyDTO.UserId, scheduleAssignmentKeyDTO.ZoneId, scheduleAssignmentKeyDTO.ScheduleId
+                    scheduleAssignmentKeyDTO.UserId, scheduleAssignmentKeyDTO.ScheduleId
                     );
                 if (scheduleAssignment == null)
                 {
@@ -54,7 +54,6 @@ namespace RefuApi.Services
                 // Verificar si ya existe la asignación
                 var existing = await _scheduleAssignmentRepository.GetByIds(
                     scheduleAssignmentDTO.UserId,
-                    scheduleAssignmentDTO.ZoneId,
                     scheduleAssignmentDTO.ScheduleId
                 );
 
@@ -68,7 +67,6 @@ namespace RefuApi.Services
                 // Cargar la versión completa con relaciones
                 var fullAssignment = await _scheduleAssignmentRepository.GetByIds(
                     scheduleAssignment.UserId,
-                    scheduleAssignment.ZoneId,
                     scheduleAssignment.ScheduleId
                 );
 
@@ -88,7 +86,7 @@ namespace RefuApi.Services
             try
             {
                 var assignment = await _scheduleAssignmentRepository.GetByIds(
-                    scheduleAssignmentKeyDTO.UserId, scheduleAssignmentKeyDTO.ZoneId, scheduleAssignmentKeyDTO.ScheduleId
+                    scheduleAssignmentKeyDTO.UserId, scheduleAssignmentKeyDTO.ScheduleId
                     );
                 if (assignment == null)
                     throw new KeyNotFoundException("Assignment not found.");

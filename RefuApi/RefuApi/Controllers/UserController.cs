@@ -17,7 +17,7 @@ namespace RefuApi.Controllers
 
         // GET: api/user
         [HttpGet]
-        public async Task<IActionResult> SearchUsers([FromQuery] string? name, [FromQuery] string? email)
+        public async Task<IActionResult> SearchUsers([FromQuery] string? name, [FromQuery] string? email, [FromQuery] bool? isVeteran)
         {
             var userQueryParametersDTO = new UserQueryParametersDTO
             {
@@ -91,7 +91,7 @@ namespace RefuApi.Controllers
             }
             catch(Exception ex)
             {
-                return StatusCode(500, new { message = $"Unexpected error occurred: {ex}" });
+                return StatusCode(500, new { message = $"Unexpected error occurred: {ex.Message}" });
             }
         }
 
@@ -106,11 +106,11 @@ namespace RefuApi.Controllers
             }
             catch(KeyNotFoundException ex)
             {
-                return NotFound(ex);
+                return NotFound(new {message = ex.Message});
             }
             catch(Exception ex)
             {
-                return StatusCode(500, ex);
+                return StatusCode(500, new {message = ex.Message});
             }
         }
     }

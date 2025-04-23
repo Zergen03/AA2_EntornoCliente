@@ -8,10 +8,6 @@ namespace RefuApi.DTOs.ScheduleAssignment
         public int UserId { get; set; }
 
         [Required]
-        public int ZoneId { get; set; }
-
-        [Required]
         public int ScheduleId { get; set; }
     }
-
 }

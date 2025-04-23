@@ -9,5 +9,17 @@ namespace RefuApi.Models
         [Required]
         public required string Name { get; set; }
 
+        public ICollection<Schedule> Schedules { get; set; } = new List<Schedule>();
+
+        public Zone() { }
+        public Zone(string name)
+        {
+            Name = name;
+        }
+
+        public override string ToString()
+        {
+            return $"Id: {Id}, Name: {Name}";
+        }
     }
 }

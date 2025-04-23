@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RefuApi.Models
+﻿namespace RefuApi.Models
 {
     public class ScheduleQueryParameters
     {
         public DateOnly? Day { get; set; }
+
+        public int? ZoneId { get; set; }
     }
 }

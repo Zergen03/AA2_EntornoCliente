@@ -13,6 +13,8 @@ public class CreateUserDTO
     public string Email { get; set; } = default!;
 
     [Required]
+    [StringLength(100, ErrorMessage = "The Password should be less than 100 chars")]
+    [DataType(DataType.Password)]
     public string Password { get; set; } = default!;
 
     public bool IsVeteran { get; set; } = false;

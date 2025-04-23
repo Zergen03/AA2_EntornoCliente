@@ -15,49 +15,50 @@ namespace RefuApi.Data
         {
             var query = _context.ScheduleAssignments
                 .Include(sa => sa.User)
-                .Include(sa => sa.Zone)
                 .Include(sa => sa.Schedule)
+                    .ThenInclude(s => s.Zone)
                 .AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(scheduleAssignmentQueryParameters.UserName))
                 query = query.Where(sa => sa.User.Name.Contains(scheduleAssignmentQueryParameters.UserName));
 
             if (!string.IsNullOrWhiteSpace(scheduleAssignmentQueryParameters.ZoneName))
-                query = query.Where(sa => sa.Zone.Name.Contains(scheduleAssignmentQueryParameters.ZoneName));
+                query = query.Where(sa => sa.Schedule.Zone.Name.Contains(scheduleAssignmentQueryParameters.ZoneName));
 
             if (scheduleAssignmentQueryParameters.Day.HasValue)
-                query = query.Where(sa => sa.Schedule.Day == scheduleAssignmentQueryParameters.Day);
+                query = query.Where(sa => sa.Schedule.Day == scheduleAssignmentQueryParameters.Day.Value);
 
             if (scheduleAssignmentQueryParameters.StartTime.HasValue)
-                query = query.Where(sa => sa.Schedule.StartTime == scheduleAssignmentQueryParameters.StartTime);
+                query = query.Where(sa => sa.Schedule.StartTime == scheduleAssignmentQueryParameters.StartTime.Value);
 
             if (scheduleAssignmentQueryParameters.EndTime.HasValue)
-                query = query.Where(sa => sa.Schedule.EndTime == scheduleAssignmentQueryParameters.EndTime);
+                query = query.Where(sa => sa.Schedule.EndTime == scheduleAssignmentQueryParameters.EndTime.Value);
 
             return await query.ToListAsync();
         }
-        public async Task<ScheduleAssignment?> GetByIds(int userId, int zoneId, int scheduleId)
+
+        public async Task<ScheduleAssignment?> GetByIds(int userId, int scheduleId)
         {
             return await _context.ScheduleAssignments
                 .Include(sa => sa.User)
-                .Include(sa => sa.Zone)
                 .Include(sa => sa.Schedule)
+                    .ThenInclude(s => s.Zone)
                 .FirstOrDefaultAsync(sa =>
                     sa.UserId == userId &&
-                    sa.ZoneId == zoneId &&
                     sa.ScheduleId == scheduleId);
         }
+
         public async Task Add(ScheduleAssignment scheduleAssignment)
         {
             var userExists = await _context.Users.AnyAsync(u => u.Id == scheduleAssignment.UserId);
-            var zoneExists = await _context.Zones.AnyAsync(z => z.Id == scheduleAssignment.ZoneId);
             var scheduleExists = await _context.Schedules.AnyAsync(s => s.Id == scheduleAssignment.ScheduleId);
 
-            if (!userExists || !zoneExists || !scheduleExists)
-                throw new InvalidOperationException("User, Zone or Schedule not found.");
+            if (!userExists || !scheduleExists)
+                throw new InvalidOperationException("User or Schedule not found.");
 
             await _context.ScheduleAssignments.AddAsync(scheduleAssignment);
         }
+
         public Task Delete(ScheduleAssignment scheduleAssignment)
         {
             _context.ScheduleAssignments.Remove(scheduleAssignment);

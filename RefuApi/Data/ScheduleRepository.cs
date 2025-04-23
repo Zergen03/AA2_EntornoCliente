@@ -22,6 +22,10 @@ namespace RefuApi.Data
                 {
                     query = query.Where(s => s.Day == scheduleQueryParameters.Day.Value);
                 }
+                if (scheduleQueryParameters?.ZoneId.HasValue == true)
+                {
+                    query = query.Where(s => s.ZoneId == scheduleQueryParameters.ZoneId.Value);
+                }
             }
             var result = await query.ToListAsync();
             return result;

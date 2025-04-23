@@ -16,13 +16,14 @@ namespace RefuApi.Controllers
 
         // GET: api/Schedule
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] DateOnly? day)
+        public async Task<IActionResult> GetAll([FromQuery] DateOnly? day, [FromQuery] int? zoneId)
         {
             try
             {
                 var scheduleQueryParametersDTO = new ScheduleQueryParametersDTO
                 {
-                    Day = day
+                    Day = day,
+                    ZoneId = zoneId,
                 };
 
                 var schedules = await _scheduleService.GetAll(scheduleQueryParametersDTO);
@@ -60,6 +61,10 @@ namespace RefuApi.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
                 var schedule = await _scheduleService.Add(createScheduleDTO);
                 return CreatedAtAction(nameof(Get), new { id = schedule.Id }, schedule);
             }
@@ -75,6 +80,10 @@ namespace RefuApi.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
                 var schedule = await _scheduleService.Update(id, updateScheduleDTO);
                 return Ok(schedule);
             }
