@@ -1,0 +1,16 @@
+FROM mcr.microsoft.com/dotnet/sdk:8.0
+
+WORKDIR /app
+
+# Copiar toda la solución
+COPY . .
+
+# Restaurar dependencias
+RUN dotnet restore RefuApi/RefuApi.csproj
+
+# Instalar la herramienta de EF Core
+RUN dotnet tool install --global dotnet-ef
+ENV PATH="${PATH}:/root/.dotnet/tools"
+
+# Aplicar las migraciones usando el mismo comando que usas localmente
+ENTRYPOINT ["dotnet", "ef", "database", "update", "-p", "./Data/Data.csproj", "-s", "./RefuApi/RefuApi.csproj"]

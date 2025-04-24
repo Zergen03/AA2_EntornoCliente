@@ -11,6 +11,12 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 DotNetEnv.Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.WebHost.ConfigureKestrel(serverOptions =>
+{
+    serverOptions.ListenAnyIP(8080);
+});
+
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
      {
@@ -85,13 +91,13 @@ builder.Services.AddAuthorization(options =>
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
     app.UseSwagger();
     app.UseSwaggerUI();
-}
 
-// app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 

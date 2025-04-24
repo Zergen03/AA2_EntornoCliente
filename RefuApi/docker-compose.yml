@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: refu_mysql
+    ports:
+      - "7296:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DB}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - refu_net
+
+  migrations:
+    build:
+      context: .
+      dockerfile: dockerfile.migrations
+    depends_on:
+      - mysql
+    environment:
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_PORT: 3306
+      MYSQL_DB: ${MYSQL_DB}
+      MYSQL_USER: root
+      MYSQL_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    networks:
+      - refu_net
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: refu_api
+    ports:
+      - "6927:8080"
+    depends_on:
+      - mysql
+      - migrations
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_PORT: 3306
+      MYSQL_DB: ${MYSQL_DB}
+      MYSQL_USER: root
+      MYSQL_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      JWT_ISSUER: ${JWT_ISSUER}
+      JWT_AUDIENCE: ${JWT_AUDIENCE}
+      JWT_SECRET: ${JWT_SECRET}
+    networks:
+      - refu_net
+
+volumes:
+  mysql_data:
+
+networks:
+  refu_net:
+    driver: bridge
