@@ -87,6 +87,17 @@ builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("VeteranOnly", policy => policy.RequireClaim("IsVeteran", "true"));
 });
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:5173")
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        });
+});
+
 
 
 var app = builder.Build();
@@ -96,6 +107,7 @@ var app = builder.Build();
 
 //app.UseHttpsRedirection();
 
+app.UseCors("AllowFrontend");
 app.UseAuthentication();
 app.UseAuthorization();
 
