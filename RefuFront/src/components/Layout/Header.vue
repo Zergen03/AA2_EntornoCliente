@@ -3,21 +3,40 @@ import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
 
 const drawer = ref(false)
+
+const isLoggedIn = ref(!!localStorage.getItem('token'))
+
+window.addEventListener('storage', () => {
+  isLoggedIn.value = !!localStorage.getItem('token')
+})
+
+function logout() {
+  localStorage.removeItem('token')
+  isLoggedIn.value = false
+}
+
 </script>
 
 <template>
   <div class="header">
     <div class="header-content rounded-xl">
       <div class="logo">
-        <v-img :width="100" aspect-ratio="1/1" cover src="https://gestionyproteccionfelina.org/wp-content/uploads/2024/07/gyp_logo.webp"></v-img>
+        <v-img
+          :width="100"
+          aspect-ratio="1/1"
+          cover
+          src="https://gestionyproteccionfelina.org/wp-content/uploads/2024/07/gyp_logo.webp"
+        ></v-img>
       </div>
 
       <div class="d-none d-md-flex">
         <nav>
           <RouterLink to="/">Home</RouterLink>
-          <RouterLink to="/quienes_somos">Quienes Somos</RouterLink>
-          <RouterLink to="/hazte_voluntario">Hazte Voluntario</RouterLink>
-          <RouterLink to="/logIn">LogIn</RouterLink>
+          <RouterLink to="/about">Quienes Somos</RouterLink>
+          <RouterLink to="/becomeVolunteer">Hazte Voluntario</RouterLink>
+          <RouterLink v-if="!isLoggedIn" to="/logIn">LogIn</RouterLink>
+          <RouterLink v-if="isLoggedIn" to="/schedule">Panel</RouterLink>
+          <RouterLink v-if="isLoggedIn" to="/" @click.prevent="logout">Cerrar sesión</RouterLink>
         </nav>
       </div>
 
@@ -27,20 +46,16 @@ const drawer = ref(false)
     </div>
   </div>
 
-  <v-navigation-drawer
-    v-model="drawer"
-    temporary
-    location="left"
-  >
+  <v-navigation-drawer v-model="drawer" temporary location="left">
     <v-list>
       <v-list-item link>
         <RouterLink to="/">Home</RouterLink>
       </v-list-item>
       <v-list-item link>
-        <RouterLink to="/quienes_somos">Quienes Somos</RouterLink>
+        <RouterLink to="/about">Quienes Somos</RouterLink>
       </v-list-item>
       <v-list-item link>
-        <RouterLink to="/hazte_voluntario">Hazte Voluntario</RouterLink>
+        <RouterLink to="/becomeVolunteer">Hazte Voluntario</RouterLink>
       </v-list-item>
       <v-list-item link>
         <RouterLink to="/logIn">LogIn</RouterLink>
@@ -81,11 +96,11 @@ nav > * {
   padding: 1rem;
 }
 
-.burguer-icon{
-    background-color: #f47a22;
-    color: #ffffff;
+.burguer-icon {
+  background-color: #f47a22;
+  color: #ffffff;
 }
-.burguer-icon:hover{
-    background-color: #b35715;
+.burguer-icon:hover {
+  background-color: #b35715;
 }
 </style>
