@@ -1,18 +1,19 @@
 <script setup lang="ts">
+import { useUserStore } from '@/stores/userStore'
 import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
 
 const drawer = ref(false)
+const store = useUserStore()
 
-const isLoggedIn = ref(!!localStorage.getItem('token'))
 
 window.addEventListener('storage', () => {
-  isLoggedIn.value = !!localStorage.getItem('token')
+  store.isLoggedIn = !!localStorage.getItem('token')
 })
 
 function logout() {
   localStorage.removeItem('token')
-  isLoggedIn.value = false
+  store.isLoggedIn = false
 }
 
 </script>
@@ -34,9 +35,9 @@ function logout() {
           <RouterLink to="/">Home</RouterLink>
           <RouterLink to="/about">Quienes Somos</RouterLink>
           <RouterLink to="/becomeVolunteer">Hazte Voluntario</RouterLink>
-          <RouterLink v-if="!isLoggedIn" to="/logIn">LogIn</RouterLink>
-          <RouterLink v-if="isLoggedIn" to="/schedule">Panel</RouterLink>
-          <RouterLink v-if="isLoggedIn" to="/" @click.prevent="logout">Cerrar sesión</RouterLink>
+          <RouterLink v-if="!store.isLoggedIn" to="/logIn">LogIn</RouterLink>
+          <RouterLink v-if="store.isLoggedIn" to="/schedule">Panel</RouterLink>
+          <RouterLink v-if="store.isLoggedIn" to="/" @click.prevent="logout">Cerrar sesión</RouterLink>
         </nav>
       </div>
 

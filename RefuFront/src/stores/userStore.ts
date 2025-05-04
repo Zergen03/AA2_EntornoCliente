@@ -4,6 +4,7 @@ import { computed, reactive } from 'vue'
 
 export const useUserStore = defineStore('users', () => {
   const users = reactive(new Array<user>())
+  let isLoggedIn = !!localStorage.getItem('token')
 
   function fetchAll() {
     if (users.length == 0) {
@@ -58,6 +59,7 @@ export const useUserStore = defineStore('users', () => {
         const token = data.token
         if (!token) throw new Error('Token not recived')
         localStorage.setItem('token', token)
+        isLoggedIn = true
         return token
       })
       .catch((err) => {
@@ -66,5 +68,5 @@ export const useUserStore = defineStore('users', () => {
       })
   }
 
-  return { users, fetchAll, userById, register, login }
+  return { users, isLoggedIn, fetchAll, userById, register, login }
 })

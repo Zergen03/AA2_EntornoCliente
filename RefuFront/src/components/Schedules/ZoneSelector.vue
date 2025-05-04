@@ -1,39 +1,56 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import ScheduleTable from './ScheduleTable.vue'
+import { useWeekNavigatorStore } from '@/stores/WeekNavigation'
+import { useZoneStore } from '@/stores/zoneStore'
 
-const expanded = ref(0) // index del panel abierto
+const expanded = ref(0)
+const { weekDates, nextWeek, previousWeek } = useWeekNavigatorStore()
+const zoneStore = useZoneStore()
+const zones = zoneStore.zones
 
-const zones = [
-  { name: 'Bienvenida + Adaptación', dataKey: 'adaptacion' },
-  { name: 'Guardería', dataKey: 'guarderia' },
-]
+onMounted(() => {
+  console.log('montando')
+
+  zoneStore.fetchAll()
+  console.log(zones)
+})
 </script>
 
 <template>
   <v-expansion-panels v-model="expanded" multiple>
-    <v-expansion-panel
-      v-for="(zone, index) in zones"
-      :key="zone.name"
-      class="zone-panel"
-    >
+    <div class="buttons">
+      <v-btn color="primary" variant="tonal" rounded="xl" @click="previousWeek()"
+        >Semana anterior</v-btn
+      >
+      <v-btn color="primary" variant="tonal" rounded="xl" @click="nextWeek()"
+        >Siguiente semana</v-btn
+      >
+    </div>
+    <v-expansion-panel v-for="(zone, index) in zones" :key="zone.name" class="zone-panel">
       <v-expansion-panel-title>
         <span class="zone-title">{{ zone.name }}</span>
       </v-expansion-panel-title>
 
       <v-expansion-panel-text>
-        <ScheduleTable :zone="zone.dataKey" />
+        <ScheduleTable :zoneId="zone.id" />
       </v-expansion-panel-text>
     </v-expansion-panel>
   </v-expansion-panels>
 </template>
 
 <style scoped>
+.buttons {
+  display: flex;
+  gap: 5rem;
+}
+
 .zone-panel {
   margin-bottom: 16px; /* separación entre paneles */
   border-radius: 8px;
   overflow: hidden;
   border: 1px solid #ffffff33;
+  width: 10%;
 }
 
 .zone-title {
