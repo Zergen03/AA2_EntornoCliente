@@ -2,11 +2,11 @@
 import { useScheduleStore } from '@/stores/scheduleStore'
 import ScheduleRow from '@/components/Schedules/ScheduleRow.vue'
 import ScheduleCard from '@/components/Schedules/ScheduleCard.vue'
-import { onMounted, watch } from 'vue'
+import { watch } from 'vue'
 import { computed } from 'vue'
 import { useWeekNavigatorStore } from '@/stores/WeekNavigation'
 import { storeToRefs } from 'pinia'
-import SignUpButton from './SignUpButton.vue'
+import { jwtDecode } from 'jwt-decode'
 
 const store = useScheduleStore()
 const weekStore = useWeekNavigatorStore()
@@ -15,6 +15,7 @@ const { nextWeek, previousWeek } = weekStore
 
 const props = defineProps<{
   zoneId: number
+  zoneName: string
 }>()
 
 const groupedSchedules = computed(() => {
@@ -34,7 +35,9 @@ const groupedSchedules = computed(() => {
       }
     }
     if (item.zoneId == props.zoneId) {
-      const alreadyExists = schedulesByDay[isoDate].volunteers.some((v: { userId: number }) => v.userId === item.userId)
+      const alreadyExists = schedulesByDay[isoDate].volunteers.some(
+        (v: { userId: number }) => v.userId === item.userId,
+      )
 
       if (!alreadyExists) {
         schedulesByDay[isoDate].volunteers.push({
@@ -62,6 +65,39 @@ const groupedSchedules = computed(() => {
     }
   })
 })
+
+async function updateTime(payload: { day: string; time: string; schedule: number }) {
+  const token = localStorage.getItem('token');
+  if (!token) return;
+  
+  const validTimeFormat = /^\d{2}:\d{2}$/;
+
+  if(!payload.time || !validTimeFormat.test(payload.time)) return;
+
+  const decoded: any = jwtDecode(token);
+  const name = decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];
+
+  const scheduleResponse: any = await store.addSchedule(
+    payload.day,
+    payload.time,
+    props.zoneId,
+    decoded.userId
+  );
+
+  store.schedules.push({
+    day: payload.day,
+    startTime: payload.time,
+    endTime: scheduleResponse.endTime,
+    scheduleId: scheduleResponse.id,
+    zoneId: props.zoneId,
+    zoneName: props.zoneName,
+    userId: decoded.userId,
+    userName: name,
+  });
+
+  console.log("Horario actualizado correctamente");
+}
+
 
 watch(
   () => weekDates.value,
@@ -91,6 +127,8 @@ watch(
           :startTime="schedule.startTime"
           :endTime="schedule.endTime"
           :volunteers="schedule.volunteers"
+          :scheduleId="schedule.scheduleId"
+          @updateTime="updateTime"
         />
       </tbody>
     </table>

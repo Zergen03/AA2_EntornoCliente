@@ -215,8 +215,9 @@ namespace RefuApi.Services
 
             var claims = new List<Claim>
            {
-               new Claim(ClaimTypes.Name, user.Name),
-               new Claim("IsVeteran", user.IsVeteran.ToString())
+               new Claim("userName", user.Name),
+               new Claim("IsVeteran", user.IsVeteran.ToString()),
+               new Claim("userId", user.Id.ToString()),
            };
 
             var token = new JwtSecurityToken(

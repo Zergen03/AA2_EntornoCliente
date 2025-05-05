@@ -5,6 +5,6 @@ export interface schedule {
   zoneName: string
   scheduleId: number
   day: string
-  startTime: string
+  startTime?: string
   endTime: string
 }

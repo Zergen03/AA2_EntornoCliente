@@ -3,13 +3,14 @@ import { jwtDecode } from 'jwt-decode'
 import { useUserStore } from '@/stores/userStore'
 
 const userStore = useUserStore()
+const emit = defineEmits(['isEditing'])
 
 
 
 </script>
 
 <template>
-  <v-btn @click="console.log(userStore.token)" class="btn-apuntarse">Apuntarse</v-btn>
+  <v-btn @click="emit('isEditing')" class="btn-apuntarse">Apuntarse</v-btn>
 </template>
 
 <style scoped>

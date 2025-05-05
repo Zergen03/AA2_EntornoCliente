@@ -1,17 +1,35 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import SignUpButton from './SignUpButton.vue'
 
 interface Volunteer {
   userId: number
   userName: string
 }
-
 const props = defineProps<{
   day: string
   startTime?: string
   endTime?: string
   volunteers: Volunteer[]
+  scheduleId?: number
 }>()
+const emit = defineEmits(['updateTime'])
+
+const isEditing = ref(false)
+const editingTime = ref(props.startTime || '---')
+
+function editTime() {
+  isEditing.value = !isEditing.value
+  console.log('editando: ' + isEditing.value)
+
+  if (!isEditing.value) {
+    emit('updateTime', {
+      day: props.day,
+      time: editingTime.value,
+      schedule: props.scheduleId
+    })
+  }
+}
 </script>
 
 <template>
@@ -29,7 +47,10 @@ const props = defineProps<{
       }}
     </td>
     <td>
-      <span>
+      <span v-if="isEditing">
+        <input type="time" v-model="editingTime" />
+      </span>
+      <span v-else>
         {{ startTime || '---' }}
       </span>
       <span v-if="endTime != '00:00' && endTime != null">
@@ -55,7 +76,7 @@ const props = defineProps<{
     </td>
 
     <td>
-      <SignUpButton />
+      <SignUpButton @isEditing="editTime" />
     </td>
   </tr>
 </template>

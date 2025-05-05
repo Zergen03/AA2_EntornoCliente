@@ -27,7 +27,7 @@ const zones = zoneStore.zones
       </v-expansion-panel-title>
 
       <v-expansion-panel-text>
-        <ScheduleTable :zoneId="zone.id" />
+        <ScheduleTable :zoneId="zone.id" :zoneName="zone.name" />
       </v-expansion-panel-text>
     </v-expansion-panel>
   </v-expansion-panels>
