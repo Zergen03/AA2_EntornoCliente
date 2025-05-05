@@ -45,7 +45,6 @@ const groupedSchedules = computed(() => {
     }
   }
 
-  // Ahora construimos la lista para la semana
   return weekDates.value.map((date) => {
     const isoDate = date.toISOString().slice(0, 10)
     if (schedulesByDay[isoDate]) {

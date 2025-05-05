@@ -19,6 +19,7 @@ export const useScheduleStore = defineStore('schedules', () => {
           startTime: d.startTime,
           endTime: d.endTime,
         }))
+        schedules.slice(0, schedules.length)
         schedules.push(...scheduleInfo)
         console.log(schedules)
       })

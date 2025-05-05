@@ -33,7 +33,7 @@ const props = defineProps<{
         {{ startTime || '---' }}
       </span>
       <span v-if="endTime != '00:00' && endTime != null">
-        {{ "-" + endTime }}
+        {{ '-' + endTime }}
       </span>
     </td>
     <td>

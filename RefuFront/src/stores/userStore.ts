@@ -1,10 +1,11 @@
 import type { user } from '@/assets/core/user'
 import { defineStore } from 'pinia'
-import { computed, reactive } from 'vue'
+import { computed, reactive, ref } from 'vue'
 
 export const useUserStore = defineStore('users', () => {
   const users = reactive(new Array<user>())
-  let isLoggedIn = !!localStorage.getItem('token')
+  let token = ref<string | null>(localStorage.getItem('token'))
+  let isLoggedIn = ref(!!token.value)
 
   function fetchAll() {
     if (users.length == 0) {
@@ -43,7 +44,7 @@ export const useUserStore = defineStore('users', () => {
       })
       .catch((err) => console.error(err))
   }
-  function login(email: string, password: string): Promise<void> {
+  function login(email: string, password: string): Promise<string> {
     return fetch('http://localhost:6927/api/user/login', {
       method: 'POST',
       headers: {
@@ -56,11 +57,11 @@ export const useUserStore = defineStore('users', () => {
         return res.json()
       })
       .then((data) => {
-        const token = data.token
-        if (!token) throw new Error('Token not recived')
-        localStorage.setItem('token', token)
-        isLoggedIn = true
-        return token
+        token.value = data.token
+        if (!token.value) throw new Error('Token not received')
+        localStorage.setItem('token', token.value)
+        isLoggedIn.value = true
+        return token.value
       })
       .catch((err) => {
         console.error('Error en el inicio de sesión:', err)
@@ -68,5 +69,5 @@ export const useUserStore = defineStore('users', () => {
       })
   }
 
-  return { users, isLoggedIn, fetchAll, userById, register, login }
+  return { users, isLoggedIn, token, fetchAll, userById, register, login }
 })

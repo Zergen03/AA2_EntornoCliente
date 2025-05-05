@@ -9,12 +9,6 @@ const { weekDates, nextWeek, previousWeek } = useWeekNavigatorStore()
 const zoneStore = useZoneStore()
 const zones = zoneStore.zones
 
-onMounted(() => {
-  console.log('montando')
-
-  zoneStore.fetchAll()
-  console.log(zones)
-})
 </script>
 
 <template>
