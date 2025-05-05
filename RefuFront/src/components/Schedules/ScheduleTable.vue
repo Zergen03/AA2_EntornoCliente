@@ -2,7 +2,7 @@
 import { useScheduleStore } from '@/stores/scheduleStore'
 import ScheduleRow from '@/components/Schedules/ScheduleRow.vue'
 import ScheduleCard from '@/components/Schedules/ScheduleCard.vue'
-import { watch } from 'vue'
+import { ref, watch } from 'vue'
 import { computed } from 'vue'
 import { useWeekNavigatorStore } from '@/stores/WeekNavigation'
 import { storeToRefs } from 'pinia'
@@ -67,22 +67,44 @@ const groupedSchedules = computed(() => {
 })
 
 async function updateTime(payload: { day: string; time: string; schedule: number }) {
-  const token = localStorage.getItem('token');
-  if (!token) return;
-  
-  const validTimeFormat = /^\d{2}:\d{2}$/;
+  //usuario no loggeado
+  const token = localStorage.getItem('token')
+  if (!token) {
+    showError('Tienes que estar loggeado')
+    return
+  }
 
-  if(!payload.time || !validTimeFormat.test(payload.time)) return;
+  //formato de horario
+  const validTimeFormat = /^\d{2}:\d{2}$/
+  if (!payload.time || !validTimeFormat.test(payload.time)) {
+    showError('No es una hora valida')
+    return
+  }
 
-  const decoded: any = jwtDecode(token);
-  const name = decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];
+  const decoded: any = jwtDecode(token)
+  const name = decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name']
+
+  //usuario ya inscrito
+  const dia = groupedSchedules.value.find((s) => s.scheduleId === payload.schedule)
+  const alreadyExists = dia?.volunteers.some((v: any) => v.userName === name)
+
+  if (alreadyExists) {
+    showError('Ya estas inscrito en este horario')
+    return
+  }
+
+  //no hay veterano
+  if(decoded.IsVeteran && dia?.volunteers.length == 0){
+    showError('No hay veteranos inscritos')
+    return
+  }
 
   const scheduleResponse: any = await store.addSchedule(
     payload.day,
     payload.time,
     props.zoneId,
-    decoded.userId
-  );
+    decoded.userId,
+  )
 
   store.schedules.push({
     day: payload.day,
@@ -93,18 +115,16 @@ async function updateTime(payload: { day: string; time: string; schedule: number
     zoneName: props.zoneName,
     userId: decoded.userId,
     userName: name,
-  });
+  })
 
-  console.log("Horario actualizado correctamente");
+  console.log('Horario actualizado correctamente')
 }
 
+const snackbar = ref({ show: false, message: '' })
 
-watch(
-  () => weekDates.value,
-  (newWeek) => {
-    console.log('Fechas semana cambiadas:', newWeek)
-  },
-)
+function showError(msg: string) {
+  snackbar.value = { show: true, message: msg }
+}
 </script>
 
 <template>
@@ -132,6 +152,9 @@ watch(
         />
       </tbody>
     </table>
+    <v-snackbar v-model="snackbar.show" timeout="3000">
+      {{ snackbar.message }}
+    </v-snackbar>
 
     <!-- Mobile -->
     <div class="d-md-none">
