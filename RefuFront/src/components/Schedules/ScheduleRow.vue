@@ -12,6 +12,7 @@ const props = defineProps<{
   endTime?: string
   volunteers: Volunteer[]
   scheduleId?: number
+  alreadyExists?: boolean
 }>()
 const emit = defineEmits(['updateTime'])
 

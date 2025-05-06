@@ -82,7 +82,6 @@ async function updateTime(payload: { day: string; time: string; schedule: number
   }
 
   const decoded: any = jwtDecode(token)
-  const name = decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name']
 
   //usuario ya inscrito
   const dia = groupedSchedules.value.find((s) => s.scheduleId === payload.schedule)
@@ -94,7 +93,7 @@ async function updateTime(payload: { day: string; time: string; schedule: number
   }
 
   //no hay veterano
-  if(decoded.IsVeteran && dia?.volunteers.length == 0){
+  if(!decoded.IsVeteran && dia?.volunteers.length == 0){
     showError('No hay veteranos inscritos')
     return
   }
@@ -114,7 +113,7 @@ async function updateTime(payload: { day: string; time: string; schedule: number
     zoneId: props.zoneId,
     zoneName: props.zoneName,
     userId: decoded.userId,
-    userName: name,
+    userName: decoded.userName,
   })
 
   console.log('Horario actualizado correctamente')
