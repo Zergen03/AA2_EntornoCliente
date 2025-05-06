@@ -22,19 +22,21 @@ const groupedSchedules = computed(() => {
   const schedulesByDay: Record<string, any> = {}
 
   for (const item of store.schedules) {
-    const isoDate = new Date(item.day).toISOString().slice(0, 10)
-    if (!schedulesByDay[isoDate]) {
-      schedulesByDay[isoDate] = {
-        day: isoDate,
-        startTime: item.startTime,
-        endTime: item.endTime,
-        volunteers: [],
-        scheduleId: item.scheduleId,
-        zoneId: item.zoneId,
-        zoneName: item.zoneName,
+    if (item.zoneId === props.zoneId) {
+      const isoDate = new Date(item.day).toISOString().slice(0, 10)
+
+      if (!schedulesByDay[isoDate]) {
+        schedulesByDay[isoDate] = {
+          day: isoDate,
+          startTime: item.startTime,
+          endTime: item.endTime,
+          volunteers: [],
+          scheduleId: item.scheduleId,
+          zoneId: item.zoneId,
+          zoneName: item.zoneName,
+        }
       }
-    }
-    if (item.zoneId == props.zoneId) {
+
       const alreadyExists = schedulesByDay[isoDate].volunteers.some(
         (v: { userId: number }) => v.userId === item.userId,
       )
@@ -65,6 +67,7 @@ const groupedSchedules = computed(() => {
     }
   })
 })
+
 
 async function updateTime(payload: { day: string; time: string; schedule: number }) {
   //usuario no loggeado
