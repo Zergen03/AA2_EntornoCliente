@@ -96,7 +96,7 @@ async function updateTime(payload: { day: string; time: string; schedule: number
   }
 
   //no hay veterano
-  if(!decoded.IsVeteran && dia?.volunteers.length == 0){
+  if(decoded.IsVeteran === "False" && dia?.volunteers.length == 0){
     showError('No hay veteranos inscritos')
     return
   }
