@@ -28,7 +28,7 @@ export const useUserStore = defineStore('users', () => {
   }
 
   function register(newUser: user) {
-    fetch('http://localhost:6927/api/User', {
+    return fetch('http://localhost:6927/api/User', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -40,6 +40,8 @@ export const useUserStore = defineStore('users', () => {
         return res.json()
       })
       .then((data) => {
+        return login(newUser.email, newUser.password)
+        
         console.log(data)
       })
       .catch((err) => console.error(err))

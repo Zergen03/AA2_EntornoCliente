@@ -3,7 +3,7 @@ import { useUserStore } from '@/stores/userStore'
 import { jwtDecode } from 'jwt-decode'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-
+import AuthForm from '@/components/Auth/AuthForm.vue'
 
 const store = useUserStore()
 const router = useRouter()
@@ -32,12 +32,14 @@ async function handleLogin() {
 
 <template>
   <div class="container">
-    <v-form v-model="valid" @submit.prevent="handleLogin">
-      <v-text-field v-model="email" type="email" required placeholder="voluntario@gmail.com" />
-      <v-text-field v-model="password" type="password" required placeholder="*********" />
-      <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
-      <v-btn type="submit" color="primary" class="w-50 mx-auto d-block">Iniciar sesión</v-btn>
-    </v-form>
+    <AuthForm
+      :email="email"
+      :password="password"
+      :error-message="errorMessage"
+      @update:email="email = $event"
+      @update:password="password = $event"
+      :on-submit="handleLogin"
+    />
   </div>
 </template>
 
