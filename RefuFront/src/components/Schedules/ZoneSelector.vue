@@ -8,7 +8,6 @@ const expanded = ref(0)
 const { weekDates, nextWeek, previousWeek } = useWeekNavigatorStore()
 const zoneStore = useZoneStore()
 const zones = zoneStore.zones
-
 </script>
 
 <template>
