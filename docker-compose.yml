@@ -52,6 +52,19 @@ services:
     networks:
       - refu_net
 
+  frontend:
+    build:
+      context: ./RefuFront
+      dockerfile: Dockerfile
+    container_name: refu_frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - api
+    networks:
+      - refu_net
+
+
 volumes:
   mysql_data:
 
