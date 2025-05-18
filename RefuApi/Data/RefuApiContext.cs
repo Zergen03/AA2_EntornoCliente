@@ -6,7 +6,7 @@ namespace RefuApi.Data
 {
     public class RefuApiContext : DbContext
     {
-        public RefuApiContext(DbContextOptions options)
+        public RefuApiContext(DbContextOptions options) 
         : base(options)
         {
         }
